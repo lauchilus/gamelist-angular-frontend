@@ -1,0 +1,19 @@
+<table class="table">
+    <thead class="table-dark">
+        <tr>
+            <th></th>
+            <th>Name</th>
+            <th>storyline</th>
+            <th>follows</th>
+        </tr>
+    </thead>
+        
+    <tbody>
+        <tr *ngFor="let tempGames of listGamesvar">
+            <td class="align-middle"><img src="{{tempGames.image}}" alt="placeholder" height="50"></td>
+            <td class="align-middle">{{tempGames.name}}</td>
+            <td class="align-middle">{{tempGames.storyline}}</td>
+            <td class="align-middle">{{tempGames.follows}}</td>
+        </tr>
+    </tbody>
+</table>

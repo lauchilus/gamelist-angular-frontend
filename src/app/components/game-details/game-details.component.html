@@ -1,0 +1,20 @@
+<div class="main-content">
+
+
+<div class="detail-section">
+    <div class="container-fluid" *ngIf="game">
+        <img *ngIf="game?.cover" [src]="this.coverImageUrl" class="detail-img">
+        <h3>{{game.name}}</h3>
+        <h3>{{game.category}}</h3>
+        <h2>{{game.collection}}</h2>
+        <h2>{{game.rating}}</h2>
+        <hr>
+        <h4>Description</h4>
+        <p>{{game.summary}}</p>
+
+
+        <a routerLink="/games" class="mt-5"> Back to products list</a>
+
+    </div>
+</div>
+</div>

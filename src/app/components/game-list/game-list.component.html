@@ -1,0 +1,25 @@
+<div class="main-content">
+    <div class="section-content section-content-p30">
+        <div class="container-fluid">
+            <div class="row" >
+                <!--loop over products-->
+                <div *ngFor="let tempGames of listGamesvar" class="col-md-3">
+                    <div class="product-box">
+
+                        <a routerLink="/games/{{tempGames.id}}">
+                        <img src="{{tempGames.image}}" class="img-responsive"></a>
+                        <a routerLink="/games/{{tempGames.name}}">
+                        <h1>{{tempGames.name}}</h1></a>
+                       
+                    </div>
+                </div>
+
+                <div *ngIf="listGamesvar.length == 0" class="alert alert-warning col-md-12" role="alert">
+                    No Games found.
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
