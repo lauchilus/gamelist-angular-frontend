@@ -12,10 +12,10 @@
                         <img src="{{tempGames.image}}" class="card-img-top"></a>
                         <div class="card-body">
                         <a routerLink="/id/{{tempGames.game_id}}" class="card-title"><h3>{{tempGames.name}}</h3></a>
-                        <p class="card-text">{{ tempGames.description | slice:0:150 }} <!-- Mostrar los primeros 150 caracteres del texto -->
-                            <span *ngIf="tempGames.description.length > 150">...</span> <!-- Mostrar '...' si el texto es más largo que 150 caracteres --></p>
-                        <p>{{tempGames.startDate | date:'hh:mm a' }}</p>
-                        <p>{{tempGames.finishDate | date:'hh:mm a' }}</p>
+                        <p class="card-text">{{ tempGames.summary | slice:0:150 }} <!-- Mostrar los primeros 150 caracteres del texto -->
+                            
+                        <p>{{tempGames.startDate | date:'short': 'UTC' }}</p>
+                        <p>{{tempGames.finishDate | date:'hh:mm' }}</p>
 
                         </div>
                        

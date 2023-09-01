@@ -9,7 +9,7 @@
                     <div class="card">
 
                         <a routerLink="/id/${{tempGames.id}}">
-                        <img src="{{tempGames.image}}" class="card-img-top"></a>
+                        <img src="{{tempGames.image}}" class="card-img-top img-thumbnail"></a>
                         <div class="card-body">
                         <a routerLink="/id/{{tempGames.id}}" class="card-title"><h1>{{tempGames.name}}</h1></a>
                         <p class="card-text">{{ tempGames.storyline | slice:0:150 }} <!-- Mostrar los primeros 150 caracteres del texto -->

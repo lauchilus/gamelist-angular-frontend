@@ -3,7 +3,7 @@
 
 <div class="detail-section">
     <div class="container-fluid" *ngIf="game">
-        <img *ngIf="game?.cover" [src]="this.coverImageUrl" class="detail-img">
+        <img *ngIf="game?.cover" [src]="this.coverImageUrl" class="img-fluid">
         <h3>{{game.name}}</h3>
         <h3>{{game.category}}</h3>
         <h2>{{game.collection}}</h2>
