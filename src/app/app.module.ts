@@ -14,9 +14,11 @@ import { CollectionsTypesComponent } from './components/collections-types/collec
 
 const routes: Routes = [
   {path : 'search/:keyword',component: GameDetailsComponent},
+  {path : 'collection/games/:id',component: GamesComponent},
+  {path : 'collection/:id',component: DisplayCollectionComponent},
   {path : 'collections',component: DisplayCollectionComponent},
   {path: 'games/:keyword', component: GameDetailsComponent},
-  { path: 'id/:id', component: GameDetailsComponent },
+  {path: 'id/:id', component: GameDetailsComponent },
   {path: 'category/:keyword', component: DisplayCollectionComponent},
   {path : 'home',component: GameListComponent},  
   {path : '',redirectTo: '/home',pathMatch: 'full'},

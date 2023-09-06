@@ -4,11 +4,14 @@ import { Observable, map } from 'rxjs';
 import { Game } from '../common/game';
 import { ListGames } from '../common/list-games';
 import { Playing } from '../common/playing';
+import { played } from '../common/played';
+import { Collections } from '../common/collections';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
+  
   
  
 
@@ -36,16 +39,21 @@ export class GameService {
     
   }
 
-  getGamesCollection(keyword: string, username: string) : Observable<Playing[]>  {
+  getCollectionById(collectionId: string): Observable<ListGames[]> {
+    const collectionUrl = `${this.baseUrl}/${collectionId}/games`; 
+    return this.httpClient.get<ListGames[]>(collectionUrl);
+  }
+
+  getGamesCollection(keyword: string, username: string) : Observable<any[]>  {
     const searchUrl = `${this.baseUrl}/${username}`;
     switch(keyword){
       case 'collections':
         const searchCollections = `${searchUrl}/collections`
-        return this.httpClient.get<Playing[]>(searchCollections);
+        return this.httpClient.get<Collections[]>(searchCollections);
         break;
       case 'played':
         const searchPlayed = `${searchUrl}/played`
-        return this.httpClient.get<Playing[]>(searchPlayed);
+        return this.httpClient.get<played[]>(searchPlayed);
         break;
         case 'playing':
         const searchPlaying = `${searchUrl}/playing`

@@ -1,1 +1,34 @@
-<p>games works!</p>
+<div class="main-content">
+    <div class="section-content section-content-p30">
+        
+            <div class="card-group">
+
+          
+                <!--loop over products-->
+                <div *ngFor="let tempGames of listGamesvar"  class="col-md-2">
+                    <div class="card">
+
+                        
+                        <a routerLink="/id/{{tempGames.id}}">
+                        <img src="{{tempGames.image}}" class="card-img-top"></a>
+                        <div class="card-body">
+                        <a routerLink="/id/{{tempGames.id}}" class="card-title"><h3>{{tempGames.name}}</h3></a>
+                        <p class="card-text">{{ tempGames.follows}}</p> <!-- Mostrar los primeros 150 caracteres del texto -->
+                       
+
+                        </div>
+                       
+                    
+
+                    
+                   
+                </div>
+
+                <div *ngIf="listGamesvar.length == 0" class="alert alert-warning col-md-12" role="alert">
+                    No Games found.
+                </div>
+
+  </div>
+            
+        </div>
+    </div>
