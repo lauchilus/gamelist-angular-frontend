@@ -1,0 +1,46 @@
+<div class="main-content page-m">
+    <div class="section-content section-content-p30">
+        <div class="container-fluid">
+            <form [formGroup]="addCollectionFormGroup" (ngSubmit)="onSubmit()">
+             
+                <div formGroupName="addCollection" class="form-area">
+                    <h3>Add Collection</h3>
+
+                    <div class="row">
+                        <div class="col-md-2"><label>Name</label></div>
+                        <div class="col-md-9">
+                            <div class="input-space">
+                                <input formControlName="name" type="text">
+                            </div>
+
+                        </div>
+                        <div class="col-md-2"><label>Description</label></div>
+                        <div class="col-md-9">
+                            <div class="input-space">
+                                <input formControlName="description" type="text">
+                            </div>
+
+                        </div>
+                        <div class="col-md-2"><label>Image</label></div>
+                        <div class="col-md-9">
+                            <div class="input-space">
+                                <input formControlName="image" type="file" (change)="onFileSelected($event)">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-info" type="submit">Create</button>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+
+
+
+</div>
+

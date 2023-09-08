@@ -1,0 +1,36 @@
+<div class="main-content">
+    <div class="section-content section-content-p30">
+        
+            <div class="card-group">
+
+          
+                <!--loop over products-->
+                <div *ngFor="let tempGames of searchGamesVar"  class="col-md-2">
+                    <div class="card">
+
+                        <a routerLink="/id/{{tempGames.id}}">
+                        <img src="{{tempGames.cover}}" class="card-img-top img-thumbnail"></a>
+                        <div class="card-body">
+                        <a routerLink="/id/{{tempGames.id}}" class="card-title"><h1>{{tempGames.name}}</h1></a>
+                        <a routerLink="/id/{{tempGames.id}}" class="card-subtitle mb-2 text-muted"><h1>{{tempGames.rating}}</h1></a>
+                        <p class="card-text">{{ tempGames.summary | slice:0:150 }} <!-- Mostrar los primeros 150 caracteres del texto -->
+                            <span *ngIf="tempGames.summary.length > 150">...</span> <!-- Mostrar '...' si el texto es más largo que 150 caracteres --></p>
+                        
+                        </div>
+                       
+                        
+                        
+                    </div>
+                </div>
+
+                <div *ngIf="searchGamesVar.length == 0" class="alert alert-warning col-md-12" role="alert">
+                    No Games found.
+                </div>
+
+  </div>
+            
+        </div>
+    </div>
+
+
+
