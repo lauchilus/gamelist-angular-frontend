@@ -7,8 +7,10 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 })
 export class AuthService {constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {}
 
+loginUrl: string = 'http://localhost:8080/auth/login';
+
 login(username: string, password: string) {
-  return this.http.post('/api/login', { username, password });
+  return this.http.post<string>(this.loginUrl, { username, password });
 }
 
 logout() {
