@@ -1,1 +1,10 @@
-<p>add-game-to-list works!</p>
+<!-- botondropdown.component.html -->
+<div>
+  <option *ngFor="let list of type">{{list}}
+  </option>
+  <button class="btn" (click)="toggleDropdown()">Mostrar Dropdown</button>
+</div>
+
+
+
+

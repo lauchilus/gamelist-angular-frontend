@@ -14,7 +14,7 @@ export class DisplayCollectionComponent implements OnInit {
 
   listGamesvar: any[] = [];
   collectionInfo: boolean = false;
-  
+
 
   constructor(
     private route: ActivatedRoute,
@@ -24,30 +24,30 @@ export class DisplayCollectionComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.route.paramMap.subscribe((params)=>{
+    this.route.paramMap.subscribe((params) => {
       const id = params['id'];
-      if (params['id'] && params['id'].length > 0 && params['id'] === 'collection'){
+      if (params['id'] && params['id'].length > 0 && params['id'] === 'collection') {
         this.getCollectionInfo();
       }
-        this.doSomething()
-      });
-    
-    }
-  
-    doSomething() {
-    this.collectionInfo= this.route.snapshot.paramMap.has('id');
-    
-    if(this.collectionInfo){
+      this.doSomething()
+    });
+
+  }
+
+  doSomething() {
+    this.collectionInfo = this.route.snapshot.paramMap.has('id');
+
+    if (this.collectionInfo) {
       this.getCollectionInfo();
-    } else{
+    } else {
       this.listGames();
     }
   }
-    
 
-  
+
+
   getCollectionInfo() {
-    const theId : string = this.route.snapshot.paramMap.get('id');
+    const theId: string = this.route.snapshot.paramMap.get('id');
     this.service.getCollectionById(theId).subscribe(
       (data: any[]) => {
         this.listGamesvar = data;
@@ -56,7 +56,7 @@ export class DisplayCollectionComponent implements OnInit {
         });
       },
       (error: any) => {
-        console.error("ERROOOR",error);
+        console.error("ERROOOR", error);
       }
     );
   }
@@ -72,34 +72,60 @@ export class DisplayCollectionComponent implements OnInit {
 
   listGames() {
     const keyword: string = this.route.snapshot.paramMap.get("keyword");
+    console.log(keyword)
     this.service.getGamesCollection(keyword, 'lauchilus').subscribe(
       (data: Playing[]) => {
         console.log(data);
         this.listGamesvar = data.filter(game => game !== null);
-  
+
         // Convertir los datos de imagen en formato Uint8Array a base64 en el componente
         this.listGamesvar.forEach(game => {
           game.image = this.getCoverImageData(game.image);
+          console.log(game.id,game.game_id)
         });
       }
     );
   }
-  
-  
-  
-  getCoverImageData(image: string): string {
-    if (image != null && image.length > 0) {
-      console.log('Generating cover image data...');
-      return 'data:image/png;base64,' + image; // Ya que `image` es el string en base64
+
+  deleteFromCollection(theId: number) {
+    const keyword: string = this.route.snapshot.paramMap.get("keyword");
+    console.log(keyword)
+    if (keyword == "played") {
+      this.service.deleteGamePlayed(theId).subscribe();
     }
-    return ''; // Manejo por si no hay imagen
+
+    if (keyword == "playing") {
+
+      this.service.deleteGamePlaying(theId).subscribe();
+      this.router.navigateByUrl('/category/playing');
+    }
+
+    if (+this.route.snapshot.paramMap.get('id')!) {
+      const theCollectionId : number = +this.route.snapshot.paramMap.get('id')!;
+      this.service.deleteGameCollection(theId).subscribe();
+      
+
+    }
+
   }
-  
-  arrayBufferToBase64(buffer: Uint8Array): string {
-    const binary = buffer.reduce((acc, byte) => acc + String.fromCharCode(byte), '');
-    return window.btoa(binary);
+
+
+
+
+
+getCoverImageData(image: string): string {
+  if (image != null && image.length > 0) {
+    console.log('Generating cover image data...');
+    return 'data:image/png;base64,' + image; // Ya que `image` es el string en base64
   }
-  
+  return ''; // Manejo por si no hay imagen
+}
+
+arrayBufferToBase64(buffer: Uint8Array): string {
+  const binary = buffer.reduce((acc, byte) => acc + String.fromCharCode(byte), '');
+  return window.btoa(binary);
+}
+
 }
 
 

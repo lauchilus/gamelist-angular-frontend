@@ -8,7 +8,7 @@
                 <div *ngFor="let tempGames of listGamesvar"  class="col-md-2">
                     <div class="card">
 
-                        <a routerLink="/id/${{tempGames.id}}">
+                        <a routerLink="/id/{{tempGames.id}}">
                         <img src="{{tempGames.image}}" class="card-img-top img-thumbnail"></a>
                         <div class="card-body">
                         <a routerLink="/id/{{tempGames.id}}" class="card-title"><h1>{{tempGames.name}}</h1></a>

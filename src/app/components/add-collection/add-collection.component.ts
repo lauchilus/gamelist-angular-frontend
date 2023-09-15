@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup,ReactiveFormsModule } from '@angular/forms';
+import { AddCollections } from 'src/app/common/addcollections';
 import { Collections } from 'src/app/common/collections';
 import { GameService } from 'src/app/services/game-service.service';
 
@@ -39,8 +40,8 @@ export class AddCollectionComponent implements OnInit{
       const reader = new FileReader();
       reader.readAsDataURL(this.selectedFile);
       reader.onload = () => {
-        this.imageBase64 = reader.result as string;
-        // Corrige la asignación al campo 'image' del formulario
+        const base64String = reader.result as string;
+      this.imageBase64 = base64String.split(',')[1];
       };
     }
   }
@@ -51,7 +52,7 @@ export class AddCollectionComponent implements OnInit{
     const formData = this.addCollectionFormGroup.value;
     formData.addCollection.image = this.imageBase64;
 
-    const theCollection = new Collections(formData.addCollection.name, formData.addCollection.description, formData.addCollection.image);
+    const theCollection = new AddCollections(formData.addCollection.name, formData.addCollection.description, this.imageBase64);
 
     this.service.postCollection(theCollection)
       .subscribe(response => {

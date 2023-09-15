@@ -1,6 +1,8 @@
 <div class="main-content">
     <div class="section-content section-content-p30">
-        
+        <ng-container *ngIf="isCollectionsRoute()"> 
+            <a routerLink="/AddCollection" class="btn btn-info">Add Collection</a>
+        </ng-container>
             <div class="card-group">
 
           
@@ -15,19 +17,21 @@
                         <a routerLink="/id/{{tempGames.game_id}}" class="card-title"><h3>{{tempGames.name}}</h3></a>
                         <p class="card-text">{{ tempGames.summary | slice:0:150 }}</p> <!-- Mostrar los primeros 150 caracteres del texto -->
                             
-                        <p>{{tempGames.startDate | date:'short': 'UTC' }}</p>
-                        <p>{{tempGames.finishDate | date:'hh:mm' }}</p>
-
+                        <p>{{tempGames.startDate | date:'short'}}</p>
+                        <p>{{tempGames.finishDate | date:'short' }}</p>
+                        <button (click)="deleteFromCollection(tempGames.id)" class="btn btn-info">Delete</button>
                         </div>
                        
                         
                     </ng-container>
-                    <ng-container *ngIf="isCollectionsRoute()">
-                        <a routerLink="/collection/games/{{tempGames.id}}">
+                    <ng-container *ngIf="isCollectionsRoute()" >
+                        
+                        <a routerLink="/collection/games/{{tempGames.game_id}}">
                             <img src="{{tempGames.image}}" class="card-img-top"></a>
                             <div class="card-body">
                             <a routerLink="/collection/{{tempGames.id}}" class="card-title"><h3>{{tempGames.name}}</h3></a>
                             <p class="card-text">{{tempGames.description}}</p>
+                            
                             </div>
                     </ng-container>
 

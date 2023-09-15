@@ -9,12 +9,14 @@
                     <div class="card">
 
                         <a routerLink="/id/{{tempGames.id}}">
-                        <img src="{{tempGames.cover}}" class="card-img-top img-thumbnail"></a>
+                        <img src="{{tempGames.image}}" class="card-img-top img-thumbnail"></a>
                         <div class="card-body">
                         <a routerLink="/id/{{tempGames.id}}" class="card-title"><h1>{{tempGames.name}}</h1></a>
                         <a routerLink="/id/{{tempGames.id}}" class="card-subtitle mb-2 text-muted"><h1>{{tempGames.rating}}</h1></a>
-                        <p class="card-text">{{ tempGames.summary | slice:0:150 }} <!-- Mostrar los primeros 150 caracteres del texto -->
-                            <span *ngIf="tempGames.summary.length > 150">...</span> <!-- Mostrar '...' si el texto es más largo que 150 caracteres --></p>
+                        <p class="card-text">{{ tempGames.summary.slice(0, 150) }}
+                            <span *ngIf="tempGames.summary.length > 150">...</span>
+                         </p>
+                         
                         
                         </div>
                        
@@ -27,10 +29,11 @@
                     No Games found.
                 </div>
 
-  </div>
+  
+            </div>
             
-        </div>
     </div>
+</div>
 
 
 

@@ -7,4 +7,16 @@ import { Component } from '@angular/core';
 })
 export class AddGameToListComponent {
 
+  isDropdownOpen = false;
+
+  type: string[] = ['played','playing','collection'];
+
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  doSomething() {
+    // Aquí puedes realizar alguna acción cuando se selecciona una opción del dropdown.
+    console.log('Opción seleccionada');
+  }
 }

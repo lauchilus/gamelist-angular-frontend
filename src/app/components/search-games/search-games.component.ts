@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute,RouterModule } from '@angular/router';
 import { Game } from 'src/app/common/game';
-import { ListGames } from 'src/app/common/list-games';
 import { GameService } from 'src/app/services/game-service.service';
 
 @Component({
@@ -27,14 +26,14 @@ constructor(
 
   listGames() {
     const theGameName: string = this.route.snapshot.paramMap.get("keyword");
-    this.service.searchGamesByName(theGameName).subscribe(
+    this.service.getGamesSearchList(theGameName).subscribe(
       (data: Game[]) => {
         console.log(data);
         this.searchGamesVar = data.filter(game => game !== null);
   
         // Iterar sobre los juegos después de recibir y filtrar los datos
         this.searchGamesVar.forEach(game => {
-          game.cover = this.getCoverImageData(game.cover);
+          game.image = this.getCoverImageData(game.cover);
         });
       }
     );

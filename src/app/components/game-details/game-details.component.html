@@ -1,6 +1,14 @@
 <div class="main-content">
-
-
+    <div class="container-fluid">
+        <label for="dropdown">Selecciona una opción:</label>
+        <select id="dropdown" [(ngModel)]="optionSelected" (ngModelChange)="onOpcionSeleccionadaChange()" >
+          <option *ngFor="let opcion of type" [value]="opcion.id">{{ opcion.name }}</option>
+        </select>
+        
+        <button (click)="addToCollection('collection')" class="au-btn-submit" style="margin-left: 2rem;">Collection</button>
+        <button (click)="addToCollection('played')" class="au-btn-submit" style="margin-left: 2rem;">Played</button>
+        <button (click)="addToCollection('playing')" class="au-btn-submit" style="margin-left: 2rem;">Playing</button>
+      </div>
 <div class="detail-section">
     <div class="container-fluid" *ngIf="game">
         <img *ngIf="game?.cover" [src]="this.coverImageUrl" class="img-fluid">

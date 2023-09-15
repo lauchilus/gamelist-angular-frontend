@@ -1,20 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, catchError, map } from 'rxjs';
 import { Game } from '../common/game';
 import { ListGames } from '../common/list-games';
 import { Playing } from '../common/playing';
 import { played } from '../common/played';
 import { Collections } from '../common/collections';
+import { AddCollections } from '../common/addcollections';
+import { AddPlayed } from '../common/addPlayed';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
-  
-  
  
-
   private baseUrl = "http://localhost:8080/gamelist"
 
   constructor(private httpClient: HttpClient) { }
@@ -30,7 +29,10 @@ export class GameService {
     return this.httpClient.get<Game>(searchUrl);
   }
 
-  
+  getGamesSearchList(theGame: string): Observable<Game[]>{
+    const searchUrl = `${this.baseUrl}/searchByName/${theGame}`;
+    return this.httpClient.get<Game[]>(searchUrl);
+  }
 
 
   getGamesList(): Observable<ListGames[]>  {
@@ -49,7 +51,7 @@ export class GameService {
     switch(keyword){
       case 'collections':
         const searchCollections = `${searchUrl}/collections`
-        return this.httpClient.get<Collections[]>(searchCollections);
+        return  this.httpClient.get<Collections[]>(searchCollections);
         break;
       case 'played':
         const searchPlayed = `${searchUrl}/played`
@@ -65,6 +67,85 @@ export class GameService {
       }
 
   }
+
+  postCollection(theCollection: AddCollections) {
+    const searchUrl = `${this.baseUrl}/collection`;
+    return this.httpClient.post<AddCollections>(searchUrl, theCollection)
+      .pipe(
+        catchError((error: any) => {
+          console.error('Error en el servicio:', error);
+          throw error;
+        })
+      );
+  }
+
+  postPlaying(theGame: AddPlayed) {
+    const searchUrl = `${this.baseUrl}/lauchilus/playing`;
+    return this.httpClient.post<AddPlayed>(searchUrl, theGame)
+      .pipe(
+        catchError((error: any) => {
+          console.error('Error en el servicio:', error);
+          throw error;
+        })
+      );
+  }
+
+
+  postPlayed(theGame: AddPlayed) {
+    const searchUrl = `${this.baseUrl}/lauchilus/played`;
+    return this.httpClient.post<AddPlayed>(searchUrl, theGame)
+      .pipe(
+        catchError((error: any) => {
+          console.error('Error en el servicio:', error);
+          throw error;
+        })
+      );
+  }
+
+  postGameToCollection(theGame: AddPlayed,theCollection: number) {
+    const searchUrl = `${this.baseUrl}/${theCollection}/game`;
+    return this.httpClient.post<AddPlayed>(searchUrl, theGame)
+      .pipe(
+        catchError((error: any) => {
+          console.error('Error en el servicio:', error);
+          throw error;
+        })
+      );
+  }
+ 
+  deleteGamePlayed(theId: number) {
+    const searchUrl=`${this.baseUrl}/lauchilus/played/${theId}`;
+    return this.httpClient.delete<number>(searchUrl)
+    .pipe(
+      catchError((error: any) => {
+        console.error('Error en el servicio:', error);
+        throw error;
+      })
+    );
+  }
+
+  deleteGamePlaying(theId: number) {
+    const searchUrl=`${this.baseUrl}/lauchilus/playing/${theId}`;
+    return this.httpClient.delete<number>(searchUrl)
+    .pipe(
+      catchError((error: any) => {
+        console.error('Error en el servicio:', error);
+        throw error;
+      })
+    );
+  }
+
+  deleteGameCollection(theId: number) {
+    const searchUrl=`${this.baseUrl}/lauchilus/collection/${theId}`;
+    return this.httpClient.delete<number>(searchUrl)
+    .pipe(
+      catchError((error: any) => {
+        console.error('Error en el servicio:', error);
+        throw error;
+      })
+    );
+  }
+  
 
 }
 

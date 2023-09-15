@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { Game } from 'src/app/common/game';
 import { ListGames } from 'src/app/common/list-games';
 import { GameService } from 'src/app/services/game-service.service';
 

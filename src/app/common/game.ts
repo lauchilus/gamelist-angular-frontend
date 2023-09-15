@@ -4,9 +4,11 @@ export class Game {
         public rating: number,
         public category: string,
         public collection: string,
-        public cover: Uint8Array,
+        public cover: string,
         public name: string,
-        public summary: string
+        public summary: string,
+        public image: string,
+        public game_id: number
     ){
     
     }
