@@ -21,6 +21,7 @@ export class LoginComponent{
 
   onSubmit() {
     // Aquí puedes agregar la lógica de autenticación, como enviar los datos al servidor.
+   
     this.authService.login(this.username, this.password).subscribe(
       (response: any) => {
         if (response && response.JWTToken) {
