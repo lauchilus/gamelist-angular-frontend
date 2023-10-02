@@ -6,7 +6,9 @@ export class played {
         public image: string,
         public startDate: Date,
         public game_id: number,
-        public base64Image: string
+        public base64Image: string,
+        public review:string,
+        public rating:number
         ){
 
     }

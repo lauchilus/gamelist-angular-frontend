@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AddPlayed } from 'src/app/common/addPlayed';
 import { Collections } from 'src/app/common/collections';
 import { Game } from 'src/app/common/game';
+import { DecodeToken } from 'src/app/helpers/decode-token';
 import { GameService } from 'src/app/services/game-service.service';
 import { __setFunctionName } from 'tslib';
+import { DialogPlayedComponent } from '../dialog-played/dialog-played.component';
+import { PostPlayed } from 'src/app/common/post-played';
 
 @Component({
   selector: 'app-game-details',
@@ -17,15 +21,38 @@ export class GameDetailsComponent implements OnInit {
   optionSelected: number;
   game!: Game;
   coverImageUrl: string = '';
+  username:string;
+  postBody: PostPlayed;
+
 
   constructor(private route: ActivatedRoute,
     private gameService: GameService,
-    private router: Router) {
+    private router: Router,
+    private decodeJwt:DecodeToken,
+    private dialog: MatDialog) {
 
   }
+  
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogPlayedComponent, {
+      width: '250px',
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Si el resultado no es nulo, significa que el usuario ha ingresado datos válidos
+        console.log(`Datos ingresados:`, result);
+        const postBody = new PostPlayed(this.game.id,result.review,result.rating);
+        // Realiza la llamada al backend utilizando el servicio de backend
+       this.addToPlayed(postBody);
+       }
+      });
+    } 
+  
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
+      this.username = this.decodeJwt.getUsernameToken();
+      console.log(this.username+'desdegameDetails')
       const idParam = params.get('id');
       const keywordParam = params.get('keyword');
 
@@ -36,6 +63,7 @@ export class GameDetailsComponent implements OnInit {
       }
     });
     this.getCollections();
+    
   }
 
   onOpcionSeleccionadaChange() {
@@ -55,7 +83,7 @@ export class GameDetailsComponent implements OnInit {
   }
 
   getCollections() {
-    this.gameService.getGamesCollection('collections', 'lauchilus').subscribe(
+    this.gameService.getGamesCollection('collections', this.username,0).subscribe(
       (data: any[]) => {
         this.type = data;
         this.type.forEach(game => {
@@ -81,6 +109,14 @@ export class GameDetailsComponent implements OnInit {
     )
   }
 
+  addToPlayed(body:PostPlayed){    
+    console.log(body)
+        this.gameService.postPlayed(body,this.username).subscribe();
+        console.log("entro")
+        this.router.navigateByUrl("/category/played")
+        
+  }
+
   addToCollection(theType: string) {
     console.log(this.optionSelected);
 
@@ -92,13 +128,9 @@ export class GameDetailsComponent implements OnInit {
         console.log("entro")
         this.router.navigateByUrl('/category/collections');
         break;
-      case 'played':
-        this.gameService.postPlayed(theGame).subscribe();
-        console.log("entro")
-        this.router.navigateByUrl('/category/played');
-        break;
+      
       case 'playing':
-        this.gameService.postPlaying(theGame).subscribe();
+        this.gameService.postPlaying(theGame,this.username).subscribe();
         this.router.navigateByUrl('/category/playing');
         console.log("entro playing")
         break;

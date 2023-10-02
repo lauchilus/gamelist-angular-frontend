@@ -1,0 +1,12 @@
+<h2>Ingresar Datos</h2>
+<form>
+  <div class="form-group">
+    <label for="texto">Texto:</label>
+    <input type="text" id="texto" [(ngModel)]="review" name="texto" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="numero">Número:</label>
+    <input type="number" id="numero" [(ngModel)]="rating" name="numero" class="form-control">
+  </div>
+</form>
+<button (click)="guardarDatos()">Guardar</button>

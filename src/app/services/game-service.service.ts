@@ -8,6 +8,8 @@ import { played } from '../common/played';
 import { Collections } from '../common/collections';
 import { AddCollections } from '../common/addcollections';
 import { AddPlayed } from '../common/addPlayed';
+import { CollectionPage } from '../common/collection-page';
+import { PostPlayed } from '../common/post-played';
 
 @Injectable({
   providedIn: 'root'
@@ -41,24 +43,24 @@ export class GameService {
     
   }
 
-  getCollectionById(collectionId: string): Observable<ListGames[]> {
-    const collectionUrl = `${this.baseUrl}/${collectionId}/games`; 
-    return this.httpClient.get<ListGames[]>(collectionUrl);
+  getCollectionById(collectionId: number,thePage:number): Observable<CollectionPage> {
+    const collectionUrl = `${this.baseUrl}/${collectionId}/games?page=${thePage}`; 
+    return this.httpClient.get<CollectionPage>(collectionUrl);
   }
 
-  getGamesCollection(keyword: string, username: string) : Observable<any[]>  {
+  getGamesCollection(keyword: string, username: string,thePage:number) : Observable<any>  {
     const searchUrl = `${this.baseUrl}/${username}`;
     switch(keyword){
       case 'collections':
-        const searchCollections = `${searchUrl}/collections`
-        return  this.httpClient.get<Collections[]>(searchCollections);
+        const searchCollections = `${searchUrl}/collections?page=${thePage}`
+        return  this.httpClient.get<CollectionPage>(searchCollections);
         break;
       case 'played':
-        const searchPlayed = `${searchUrl}/played`
+        const searchPlayed = `${searchUrl}/played?page=${thePage}`
         return this.httpClient.get<played[]>(searchPlayed);
         break;
         case 'playing':
-        const searchPlaying = `${searchUrl}/playing`
+        const searchPlaying = `${searchUrl}/playing?page=${thePage}`
         return this.httpClient.get<Playing[]>(searchPlaying);
         break;
         default:
@@ -79,8 +81,8 @@ export class GameService {
       );
   }
 
-  postPlaying(theGame: AddPlayed) {
-    const searchUrl = `${this.baseUrl}/lauchilus/playing`;
+  postPlaying(theGame: AddPlayed,theUsername:string) {
+    const searchUrl = `${this.baseUrl}/${theUsername}/playing`;
     return this.httpClient.post<AddPlayed>(searchUrl, theGame)
       .pipe(
         catchError((error: any) => {
@@ -91,9 +93,9 @@ export class GameService {
   }
 
 
-  postPlayed(theGame: AddPlayed) {
-    const searchUrl = `${this.baseUrl}/lauchilus/played`;
-    return this.httpClient.post<AddPlayed>(searchUrl, theGame)
+  postPlayed(theGame: PostPlayed,theUsername:string) {
+    const searchUrl = `${this.baseUrl}/${theUsername}/played`;
+    return this.httpClient.post<PostPlayed>(searchUrl, theGame)
       .pipe(
         catchError((error: any) => {
           console.error('Error en el servicio:', error);
@@ -113,8 +115,8 @@ export class GameService {
       );
   }
  
-  deleteGamePlayed(theId: number) {
-    const searchUrl=`${this.baseUrl}/lauchilus/played/${theId}`;
+  deleteGamePlayed(theId: number,theUsername:string) {
+    const searchUrl=`${this.baseUrl}/${theUsername}/played/${theId}`;
     return this.httpClient.delete<number>(searchUrl)
     .pipe(
       catchError((error: any) => {
@@ -124,8 +126,8 @@ export class GameService {
     );
   }
 
-  deleteGamePlaying(theId: number) {
-    const searchUrl=`${this.baseUrl}/lauchilus/playing/${theId}`;
+  deleteGamePlaying(theId: number,theUsername:string) {
+    const searchUrl=`${this.baseUrl}/${theUsername}/playing/${theId}`;
     return this.httpClient.delete<number>(searchUrl)
     .pipe(
       catchError((error: any) => {
@@ -135,8 +137,8 @@ export class GameService {
     );
   }
 
-  deleteGameCollection(theId: number) {
-    const searchUrl=`${this.baseUrl}/lauchilus/collection/${theId}`;
+  deleteGameCollection(theId: number,theUsername:string) {
+    const searchUrl=`${this.baseUrl}/${theUsername}/collection/${theId}`;
     return this.httpClient.delete<number>(searchUrl)
     .pipe(
       catchError((error: any) => {

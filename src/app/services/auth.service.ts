@@ -1,20 +1,31 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { LoggerService } from '../common/logger-service';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {}
+export class AuthService {
+constructor(private http: HttpClient, private jwtHelper: JwtHelperService,private loggerService: LoggerService) {}
 
-loginUrl: string = 'http://localhost:8080/auth/login';
+baseUrl: string = 'http://localhost:8080/auth';
 
 login(username: string, password: string) {
-  return this.http.post<string>(this.loginUrl, { username, password });
+  const loginUrl = `${this.baseUrl}/login`;
+  this.loggerService.isLoggedin = true;
+  return this.http.post<string>(loginUrl, { username, password });
+}
+
+register(username: string, password: string) {
+  const registerUrl = `${this.baseUrl}/register`
+  return this.http.post<string>(registerUrl, { username, password });
 }
 
 logout() {
-  // Implementa la lógica para cerrar sesión aquí
+  localStorage.removeItem('token');
+  window.location.reload();
 }
 
 isAuthenticated(): boolean {
@@ -29,4 +40,11 @@ getToken(): string | null {
 setToken(token: string) {
   localStorage.setItem('token', token);
 }
+
+checkLogin() {
+  const token = localStorage.getItem('token');
+  console.log(!!token)
+  return !!token;
+}
+
 }

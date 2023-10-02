@@ -9,24 +9,41 @@
                 <!--loop over products-->
                 <div *ngFor="let tempGames of listGamesvar"  class="col-md-2">
                     <div class="card">
-
-                        <ng-container *ngIf="!isCollectionsRoute()">
-                        <a routerLink="/id/{{tempGames.game_id}}">
-                        <img src="{{tempGames.image}}" class="card-img-top"></a>
-                        <div class="card-body">
-                        <a routerLink="/id/{{tempGames.game_id}}" class="card-title"><h3>{{tempGames.name}}</h3></a>
-                        <p class="card-text">{{ tempGames.summary | slice:0:150 }}</p> <!-- Mostrar los primeros 150 caracteres del texto -->
-                            
-                        <p>{{tempGames.startDate | date:'short'}}</p>
-                        <p>{{tempGames.finishDate | date:'short' }}</p>
-                        <button (click)="deleteFromCollection(tempGames.id)" class="btn btn-info">Delete</button>
-                        </div>
-                       
                         
-                    </ng-container>
+                        
+                        <ng-container *ngIf="isPlayingRoute()">
+                            <a routerLink="/id/{{tempGames.game_id}}">
+                            <img src="{{tempGames.image}}" class="card-img-top"></a>
+                            <div class="card-body">
+                            <a routerLink="/id/{{tempGames.game_id}}" class="card-title"><h3>{{tempGames.name}}</h3></a>
+                            <p class="card-text">{{ tempGames.summary | slice:0:150 }}</p> <!-- Mostrar los primeros 150 caracteres del texto -->
+                                
+                            <p>{{tempGames.startDate | date:'short'}}</p>
+                            <p>{{tempGames.finishDate | date:'short' }}</p>
+                            <button (click)="deleteFromCollection(tempGames.id)" class="btn btn-info">Delete</button>
+                            </div>
+                           
+                            
+                        </ng-container>
+                        
+                            
+                            <ng-container *ngIf="isPlayedRoute()">
+                            <a routerLink="/id/{{tempGames.game_id}}">
+                            <img src="{{tempGames.image}}" class="card-img-top"></a>
+                            <div class="card-body">
+                            <a routerLink="/id/{{tempGames.game_id}}" class="card-title"><h3>{{tempGames.name}}</h3></a>
+                            <p class="card-text">{{ tempGames.review }}</p> <!-- Mostrar los primeros 150 caracteres del texto -->
+                            <p>Rating: {{tempGames.rating}}</p>   
+                            <p>{{tempGames.startDate | date:'short'}}</p>
+                            <p>{{tempGames.finishDate | date:'short' }}</p>
+                            <button (click)="deleteFromCollection(tempGames.id)" class="btn btn-info">Delete</button>
+                            </div>
+                           
+                            
+                        </ng-container>
                     <ng-container *ngIf="isCollectionsRoute()" >
                         
-                        <a routerLink="/collection/games/{{tempGames.game_id}}">
+                        <a routerLink="/collection/{{tempGames.id}}">
                             <img src="{{tempGames.image}}" class="card-img-top"></a>
                             <div class="card-body">
                             <a routerLink="/collection/{{tempGames.id}}" class="card-title"><h3>{{tempGames.name}}</h3></a>
@@ -34,6 +51,21 @@
                             
                             </div>
                     </ng-container>
+
+                    <ng-container *ngIf="isCollectionsGamesRoute()">
+                            <a routerLink="/id/{{tempGames.game_id}}">
+                            <img src="{{tempGames.image}}" class="card-img-top"></a>
+                            <div class="card-body">
+                            <a routerLink="/id/{{tempGames.game_id}}" class="card-title"><h3>{{tempGames.name}}</h3></a>
+                            <p class="card-text">{{ tempGames.summary | slice:0:150 }}</p> <!-- Mostrar los primeros 150 caracteres del texto -->
+                                
+                            <p>{{tempGames.startDate | date:'short'}}</p>
+                            <p>{{tempGames.finishDate | date:'short' }}</p>
+                            <button (click)="deleteFromCollection(tempGames.id)" class="btn btn-info">Delete</button>
+                            </div>
+                           
+                            
+                        </ng-container>
 
                     
                     </div>
@@ -44,6 +76,22 @@
                 </div>
 
   </div>
-            
+
+  
+  <div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item"><a class="page-link" type="submit" (click)="prevPage()">Previous</a></li>
+          <li class="page-item"><a class="page-link" type="submit" (click)="changePage(1)">1</a></li>
+          <li class="page-item"><a class="page-link" type="submit" (click)="changePage(2)">2</a></li>
+          <li class="page-item"><a class="page-link" type="submit" (click)="changePage(3)">3</a></li>
+          <li class="page-item"><a class="page-link" type="submit" (click)="nextPage()">Next</a></li>
+        </ul>
+      </nav>
+
+   
+  </div>
+</div>
         </div>
-    </div>
+    

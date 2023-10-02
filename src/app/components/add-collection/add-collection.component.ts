@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,ReactiveFormsModule } from '@angular/forms';
 import { AddCollections } from 'src/app/common/addcollections';
 import { Collections } from 'src/app/common/collections';
+import { DecodeToken } from 'src/app/helpers/decode-token';
 import { GameService } from 'src/app/services/game-service.service';
 
 @Component({
@@ -15,15 +16,18 @@ export class AddCollectionComponent implements OnInit{
   addCollectionFormGroup: FormGroup;
   imageBase64: string | null = null;
   selectedFile: File | null = null;
+  username:string;
 
 
   constructor(
     private formBuilder: FormBuilder,
-    private service: GameService
+    private service: GameService,
+    private decodeJwt:DecodeToken
   ){}
 
 
   ngOnInit(): void {
+    this.username = this.decodeJwt.getUsernameToken();
     this.addCollectionFormGroup = this.formBuilder.group({
       addCollection: this.formBuilder.group({
         name: [''],
@@ -52,7 +56,7 @@ export class AddCollectionComponent implements OnInit{
     const formData = this.addCollectionFormGroup.value;
     formData.addCollection.image = this.imageBase64;
 
-    const theCollection = new AddCollections(formData.addCollection.name, formData.addCollection.description, this.imageBase64);
+    const theCollection = new AddCollections(this.username,formData.addCollection.name, formData.addCollection.description, this.imageBase64);
 
     this.service.postCollection(theCollection)
       .subscribe(response => {

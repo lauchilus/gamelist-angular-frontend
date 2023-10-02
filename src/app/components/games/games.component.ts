@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CollectionPage } from 'src/app/common/collection-page';
 import { Collections } from 'src/app/common/collections';
 import { ListGames } from 'src/app/common/list-games';
 import { Playing } from 'src/app/common/playing';
@@ -14,6 +15,8 @@ export class GamesComponent implements OnInit {
 
   listGamesvar: ListGames[] = [];
   collectionInfo: boolean = false;
+  collectionPage:CollectionPage;
+  page:number;
   
 
   constructor(
@@ -25,9 +28,10 @@ export class GamesComponent implements OnInit {
   ngOnInit(): void {
 
     this.route.paramMap.subscribe(()=>{
-      this.service.getCollectionById(this.route.snapshot.paramMap.get('id')!).subscribe(
-        (data: any[]) => {
-          this.listGamesvar = data;
+      this.service.getCollectionById(+this.route.snapshot.paramMap.get('id')!,this.page).subscribe(
+        (data: CollectionPage) => {
+          this.collectionPage = data;
+          this.listGamesvar = this.collectionPage.collections;
           this.listGamesvar.forEach(game => {
             game.image = this.getCoverImageData(game.image);
           });
